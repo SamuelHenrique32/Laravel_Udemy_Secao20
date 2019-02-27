@@ -22,7 +22,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title"></h5>
-                    <table class="table table-hover">
+                    <table class="table table-hover" id="tabelaClientes">
                         <thead>
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
@@ -45,6 +45,40 @@
             </div>
         </div>
         <script src="{{asset('js/app.js')}}" type="text/javascript"></script>
+
+        <script type="text/javascript">
+            
+            function montarLinha(cliente) {
+                return '<tr>' +
+                    '<td>' + cliente.id + '</td>' +
+                    '<td>' + cliente.nome + '</td>' +
+                    '<td>' + cliente.sobrenome + '</td>' +
+                    '<td>' + cliente.email + '</td>' +
+                '</tr>';
+            }
+
+            function montarTabela(data) {
+                //apagar linhas da tabela
+                $("#tabelaClientes>tbody>tr").remove();
+                //carregar
+                for(i=0 ; i<data.data.length ; i++){
+                    s = montarLinha(data.data[i]);
+                    //console.log(s);
+                    $("#tabelaClientes>tbody").append(s);
+                }
+            }
+
+            function carregarClientes(pagina){
+                $.get('/json', {page: pagina}, function (resp) {
+                    console.log(resp);
+                    montarTabela(resp);
+                })
+            }
+            //quando carregar pagina totalmente
+            $(function(){
+                carregarClientes(2);
+            });
+        </script>
     </body>
 
 </html>
