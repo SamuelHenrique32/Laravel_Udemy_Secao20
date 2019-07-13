@@ -64,6 +64,30 @@
 
         <script type="text/javascript">
 
+            function getItemProximo(data){
+                // Verificar se e a ultima pagina
+                if(data.last_page == data.current_page){
+                    s = '<li class="page-item disable"> ';
+                }
+                else{
+                    s = '<li class="page-item"> ';
+                }
+                s += ' <a class="page-link" href="#">Próximo</a></li> ';
+                return s;
+            }
+
+            function getItemAnterior(data){
+                // Verificar se e a primeira pagina
+                if(1 == data.current_page){
+                    s = '<li class="page-item disable"> ';
+                }
+                else{
+                    s = '<li class="page-item"> ';
+                }
+                s += ' <a class="page-link" href="#">Anterior</a></li> ';
+                return s;
+            }
+
             function getItem(data, i){
                 // Verificar se a pagina esta ativa
                 if(i == data.current_page){
@@ -77,11 +101,18 @@
             }
 
             function montarPaginator(data){
-                for(i=1 ; i<data.total ; i++){
+                // Limpa antes de criar nova
+                $("#paginator>ul>li").remove();
+                $("#paginator>ul").append(getItemAnterior(data));
+
+                inicio = 1;
+                fim = 10;
+                for(i=inicio ; i<=fim ; i++){
                     s = getItem(data, i);
                     //console.log(s);
                     $("#paginator>ul").append(s);
                 }
+                $("#paginator>ul").append(getItemProximo(data));
             }
             
             function montarLinha(cliente) {
@@ -113,7 +144,7 @@
             }
             //quando carregar pagina totalmente
             $(function(){
-                carregarClientes(2);
+                carregarClientes(8);
             });
         </script>
     </body>
