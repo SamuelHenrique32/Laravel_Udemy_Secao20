@@ -40,13 +40,49 @@
                     </table>
                 </div>
                 <div class="card-footer">
-
+                    <nav id="paginator">
+                        <ul class="pagination">
+                        <!--
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">2 </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        -->    
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
         <script src="{{asset('js/app.js')}}" type="text/javascript"></script>
 
         <script type="text/javascript">
+
+            function getItem(data, i){
+                // Verificar se a pagina esta ativa
+                if(i == data.current_page){
+                    s = '<li class="page-item active"> ';
+                }
+                else{
+                    s = '<li class="page-item"> ';
+                }
+                s += ' <a class="page-link" href="#">' + i + '</a></li> ';
+                return s;
+            }
+
+            function montarPaginator(data){
+                for(i=1 ; i<data.total ; i++){
+                    s = getItem(data, i);
+                    //console.log(s);
+                    $("#paginator>ul").append(s);
+                }
+            }
             
             function montarLinha(cliente) {
                 return '<tr>' +
@@ -72,6 +108,7 @@
                 $.get('/json', {page: pagina}, function (resp) {
                     console.log(resp);
                     montarTabela(resp);
+                    montarPaginator(resp);
                 })
             }
             //quando carregar pagina totalmente
