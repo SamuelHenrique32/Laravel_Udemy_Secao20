@@ -104,9 +104,22 @@
                 // Limpa antes de criar nova
                 $("#paginator>ul>li").remove();
                 $("#paginator>ul").append(getItemAnterior(data));
-
-                inicio = 1;
-                fim = 10;
+                // Mostrar 10 pag por vez
+                n = 10;
+                // Primeiro caso
+                if(data.current_page - n/5 <= 1){
+                    inicio = 1;
+                }
+                // Terceiro caso
+                else if (data.last_page - data.current_page < n){
+                    inicio = data.last_page - n + 1;
+                }
+                // Segundo caso
+                else{
+                    inicio = data.current_page - n/2;
+                }
+                
+                fim = inicio + n - 1;
                 for(i=inicio ; i<=fim ; i++){
                     s = getItem(data, i);
                     //console.log(s);
@@ -144,7 +157,7 @@
             }
             //quando carregar pagina totalmente
             $(function(){
-                carregarClientes(8);
+                carregarClientes(1);
             });
         </script>
     </body>
