@@ -65,6 +65,7 @@
         <script type="text/javascript">
 
             function getItemProximo(data){
+                i = data.current_page + 1;
                 // Verificar se e a ultima pagina
                 if(data.last_page == data.current_page){
                     s = '<li class="page-item disable"> ';
@@ -72,11 +73,12 @@
                 else{
                     s = '<li class="page-item"> ';
                 }
-                s += ' <a class="page-link" href="#">Próximo</a></li> ';
+                s += ' <a class="page-link" ' + ' pagina="' + i + '" href="#">Próximo</a></li> ';
                 return s;
             }
 
             function getItemAnterior(data){
+                i = data.current_page - 1;
                 // Verificar se e a primeira pagina
                 if(1 == data.current_page){
                     s = '<li class="page-item disable"> ';
@@ -84,7 +86,7 @@
                 else{
                     s = '<li class="page-item"> ';
                 }
-                s += ' <a class="page-link" href="#">Anterior</a></li> ';
+                s += ' <a class="page-link" ' + ' pagina="' + i + '" href="#">Anterior</a></li> ';
                 return s;
             }
 
@@ -96,7 +98,7 @@
                 else{
                     s = '<li class="page-item"> ';
                 }
-                s += ' <a class="page-link" href="#">' + i + '</a></li> ';
+                s += ' <a class="page-link" ' + ' pagina="' + i + '" href="#">' + i + '</a></li> ';
                 return s;
             }
 
@@ -149,11 +151,15 @@
             }
 
             function carregarClientes(pagina){
-                $.get('/json', {page: pagina}, function (resp) {
+                $.get('/json', {page: pagina}, function(resp) {
                     console.log(resp);
                     montarTabela(resp);
                     montarPaginator(resp);
-                })
+                    // Quando ja possuir os clientes carregados
+                    $("#paginator>ul>li>a").click(function(){ 
+                        carregarClientes($(this).attr('pagina'));
+                    });
+                });
             }
             //quando carregar pagina totalmente
             $(function(){
