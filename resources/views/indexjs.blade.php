@@ -21,7 +21,7 @@
                     Tabela de Clientes
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title"></h5>
+                    <h5 class="card-title" id="cardTitle"></h5>
                     <table class="table table-hover" id="tabelaClientes">
                         <thead>
                             <th scope="col">#</th>
@@ -73,7 +73,7 @@
                 else{
                     s = '<li class="page-item"> ';
                 }
-                s += ' <a class="page-link" ' + ' pagina="' + i + '" href="#">Próximo</a></li> ';
+                s += ' <a class="page-link" ' + ' pagina="' + i + '" href="javascript:void(0);">Próximo</a></li> ';
                 return s;
             }
 
@@ -86,7 +86,7 @@
                 else{
                     s = '<li class="page-item"> ';
                 }
-                s += ' <a class="page-link" ' + ' pagina="' + i + '" href="#">Anterior</a></li> ';
+                s += ' <a class="page-link" ' + ' pagina="' + i + '" href="javascript:void(0);">Anterior</a></li> ';
                 return s;
             }
 
@@ -98,7 +98,7 @@
                 else{
                     s = '<li class="page-item"> ';
                 }
-                s += ' <a class="page-link" ' + ' pagina="' + i + '" href="#">' + i + '</a></li> ';
+                s += ' <a class="page-link" ' + ' pagina="' + i + '" href="javascript:void(0);">' + i + '</a></li> ';
                 return s;
             }
 
@@ -109,7 +109,7 @@
                 // Mostrar 10 pag por vez
                 n = 10;
                 // Primeiro caso
-                if(data.current_page - n/5 <= 1){
+                if(data.current_page - n/2 <= 1){
                     inicio = 1;
                 }
                 // Terceiro caso
@@ -159,6 +159,10 @@
                     $("#paginator>ul>li>a").click(function(){ 
                         carregarClientes($(this).attr('pagina'));
                     });
+                    $("#cardTitle").html("Exibindo " + resp.per_page +
+                        " clientes de " + resp.total +
+                        " (" + resp.from + " a " + resp.to + ")"
+                    );
                 });
             }
             //quando carregar pagina totalmente
